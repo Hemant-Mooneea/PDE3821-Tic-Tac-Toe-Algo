@@ -1,6 +1,6 @@
 import random
 # Global variable to keep track of the current turn
-currentTurn = "BOT"
+currentTurn = ""
 
 def checkWin(grid):
     # checking rows
@@ -28,7 +28,8 @@ def getPlayerMove(grid):
     
 def getBotMove(grid, shape):
     print("hello world")
-
+    currentTurn = "PLAYER"
+    
 def gameLogic(grid, shape):
     if (currentTurn == "PLAYER"):
         getPlayerMove(grid)
@@ -37,7 +38,6 @@ def gameLogic(grid, shape):
         getBotMove(grid, shape)
         checkWin(grid)
         
-    print("hello world")
 
 def getEmptyGrid():
     # Return a 3x3 grid with all empty strings
