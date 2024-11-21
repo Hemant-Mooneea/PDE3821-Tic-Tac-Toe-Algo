@@ -2,6 +2,7 @@ import random
 # Global variable to keep track of the current turn
 # 1 for player, 0 for bot
 currentTurn = 0
+
 def checkWin(grid):
     # checking rows
     for i in range(3):
@@ -20,21 +21,25 @@ def checkWin(grid):
     # return False if no win
     return False
 
-def gameLogic(grid, shape):
-    if (currentTurn == 1):
-        # Player's turn
-        getPlayerMove(grid)
-        # Check if player has won after his move
-        checkWin(grid)
-        
-    print("hello world")
-
 def getPlayerMove(grid):
     # import machine learning file la apres fer li geter kotsa player la in zuer
     # e.g machine learning pou return position dan grid kt player la pu met so move
     print("hello world")
     currentTurn = 0
     
+def getBotMove(grid, shape):
+    print("hello world")
+
+def gameLogic(grid, shape):
+    if (currentTurn == 1):
+        getPlayerMove(grid)
+        checkWin(grid)
+    else:
+        getBotMove(grid, shape)
+        checkWin(grid)
+        
+    print("hello world")
+
 def getEmptyGrid():
     # Return a 3x3 grid with all empty strings
     return [
