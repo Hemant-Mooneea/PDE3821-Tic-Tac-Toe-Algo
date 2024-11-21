@@ -1,5 +1,10 @@
 import random
 # Global variable to keep track of the current turn
+# TODO : camera.py which returns a position(eg. [0, 1],[1, 2] etc) which the player players a move
+# TODO : YOLOV8 or alternatives for object detection
+# TODO : game logic for the bot which will try to win, block player, random move(adjacent to another shape) in that order
+# TODO : varying the difficulty of the bot by adding probability of moves
+
 currentTurn = ""
 
 def checkWin(grid):
