@@ -21,7 +21,7 @@ def getShape():
     
 def main():
     BOT_SHAPE = getShape()
-    playingGrid = getEmptyGrid()
+    grid = getEmptyGrid()
     
 main()
     
