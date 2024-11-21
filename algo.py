@@ -56,9 +56,9 @@ def getShape():
     # If random is 0, then return 'X', else return 'O'
     if(random.randint(0,1) == 0):
         return 'X'
-        currentTurn = 0
+        currentTurn = 1
         
-    currentTurn = 1   
+    currentTurn = 0  
     return 'O'
     
 def main():
