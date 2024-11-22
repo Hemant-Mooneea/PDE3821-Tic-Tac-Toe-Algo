@@ -26,6 +26,7 @@ def checkWin(grid):
     return False
 
 
+
 #SECTION: Calculating different moves and the best moves
 normalMoves = [] #all moves that can be played
 goodMoves = [] #moves that are likely going to secure a win or block opponent's win
@@ -56,7 +57,7 @@ def findBestMove(grid):
         for j in range(3):
             if grid[i][j] == 0:
                 normalMoves.append([i,j])
-
+                
 def getPlayerMove(grid):
     # import machine learning file la apres fer li geter kotsa player la in zuer
     # e.g machine learning pou return position dan grid kt player la pu met so move
@@ -83,7 +84,7 @@ def getEmptyGrid():
         ["", "", ""],
         ["", "", ""]
     ]
-
+  
 def printGrid(grid):
     # Print the grid in a readable format
     for row in grid:
