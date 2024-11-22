@@ -25,6 +25,39 @@ def checkWin(grid):
     # return False if no win
     return False
 
+
+
+#SECTION: Calculating different moves and the best moves
+normalMoves = [] #all moves that can be played
+goodMoves = [] #moves that are likely going to secure a win or block opponent's win
+
+def findBestMove(grid):
+    
+    #find the best possible moves
+    for i in range(3):
+        for j in range(3):
+            #check for an empty grid to play
+            if grid[i][j] == 0:
+
+                #simulate playing X and see if it is a winning move
+                grid[i][j] = 1
+                if checkWin(grid,1):
+                    goodMoves.append([i,j])
+                   
+                #simulate playing O and see if it is a winning move for the opponent
+                grid[i][j] = 2
+                if checkWin(grid,2):
+                    goodMoves.append([i,j])
+
+                #reset grid cell after simulation
+                grid[i][j] = 0
+
+    #if no good move at the moment, play wherever empty
+    for i in range(3):
+        for j in range(3):
+            if grid[i][j] == 0:
+                normalMoves.append([i,j])
+                
 def getPlayerMove(grid):
     # import machine learning file la apres fer li geter kotsa player la in zuer
     # e.g machine learning pou return position dan grid kt player la pu met so move
@@ -51,6 +84,7 @@ def getEmptyGrid():
         ["", "", ""],
         ["", "", ""]
     ]
+  
 def printGrid(grid):
     # Print the grid in a readable format
     for row in grid:
