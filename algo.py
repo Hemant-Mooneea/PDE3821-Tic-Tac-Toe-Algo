@@ -49,21 +49,23 @@ def findBlockingMoves(grid, blockingMoves, PLAYER_SHAPE):
                 grid[i][j] = ""
 
 def findAdjacentMoves(grid, adjacentMoves, BOT_SHAPE):
+    uniqueMoves = set()
     for i in range(3):
         for j in range(3):
-            if(grid[i][j] == BOT_SHAPE):
-                # checking the left grid if it is empty so that the bot can play there
-                if(i-1 >= 0 and grid[i-1][j] == ""):
-                    adjacentMoves.append([i-1,j])
-                # checking the right grid if it is empty so that the bot can play there
-                if(i+1 < 3 and grid[i+1][j] == ""):
-                    adjacentMoves.append([i+1,j])
-                # checking the top grid if it is empty so that the bot can play there
-                if(j-1 >= 0 and grid[i][j-1] == ""):
-                    adjacentMoves.append([i,j-1])
-                # checking the bottom grid if it is empty so that the bot can play there
-                if(j+1 < 3 and grid[i][j+1] == ""):
-                    adjacentMoves.append([i,j+1])
+            if grid[i][j] == BOT_SHAPE:
+                # Checking top, bottom, left and right of the current position for empty grid
+                if (i - 1 >= 0 and grid[i - 1][j] == ""):
+                    uniqueMoves.add((i - 1, j)) 
+                if (i + 1 < 3 and grid[i + 1][j] == ""):
+                    uniqueMoves.add((i + 1, j))
+                if (j - 1 >= 0 and grid[i][j - 1] == ""):
+                    uniqueMoves.add((i, j - 1))
+                if (j + 1 < 3 and grid[i][j + 1] == ""):
+                    uniqueMoves.add((i, j + 1))
+    
+    # Convert the set to a list before returning
+    adjacentMoves.extend(list(uniqueMoves))
+
     
 
 def findOtherMoves(grid, otherMoves):
