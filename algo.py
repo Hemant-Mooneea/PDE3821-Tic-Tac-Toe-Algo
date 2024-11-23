@@ -50,6 +50,7 @@ def findBlockingMoves(grid, blockingMoves, PLAYER_SHAPE):
 
 def findAdjacentMoves(grid, adjacentMoves, BOT_SHAPE):
     uniqueMoves = set()
+
     for i in range(3):
         for j in range(3):
             if grid[i][j] == BOT_SHAPE:
@@ -66,7 +67,16 @@ def findAdjacentMoves(grid, adjacentMoves, BOT_SHAPE):
     # Convert the set to a list before returning
     adjacentMoves.extend(list(uniqueMoves))
 
-    
+def findDiagonalMoves(grid, diagonalMoves, BOT_SHAPE):
+    if grid[1][1] == BOT_SHAPE:
+        if grid[0][0] == "":
+            diagonalMoves.append([0,0])
+        if grid[0][2] == "":
+            diagonalMoves.append([0,2])
+        if grid[2][0] == "":
+            diagonalMoves.append([2,0])
+        if grid[2][2] == "":
+            diagonalMoves.append([2,2])
 
 def findOtherMoves(grid, otherMoves):
     for i in range(3):
@@ -77,12 +87,15 @@ def findOtherMoves(grid, otherMoves):
 
 def getBotMove(grid, BOT_SHAPE, PLAYER_SHAPE):
     winningMoves = []
+    diagonalMoves = []  
     adjacentMoves = []
     blockingMoves = []
     otherMoves = []
     
     findWinningMoves(grid, winningMoves, BOT_SHAPE)
     findBlockingMoves(grid, blockingMoves, PLAYER_SHAPE)
+    findDiagonalMoves(grid, diagonalMoves, BOT_SHAPE)
+    findAdjacentMoves(grid, adjacentMoves, BOT_SHAPE)
     findOtherMoves(grid, otherMoves)
 
     
