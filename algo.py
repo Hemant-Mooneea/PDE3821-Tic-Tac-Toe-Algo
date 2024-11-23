@@ -47,7 +47,24 @@ def findBlockingMoves(grid, blockingMoves, PLAYER_SHAPE):
                 if(checkWin(grid)):
                     blockingMoves.append([i,j])
                 grid[i][j] = ""
-                
+
+def findAdjacentMoves(grid, adjacentMoves, BOT_SHAPE):
+    for i in range(3):
+        for j in range(3):
+            if(grid[i][j] == BOT_SHAPE):
+                # checking the left grid if it is empty so that the bot can play there
+                if(i-1 >= 0 and grid[i-1][j] == ""):
+                    adjacentMoves.append([i-1,j])
+                # checking the right grid if it is empty so that the bot can play there
+                if(i+1 < 3 and grid[i+1][j] == ""):
+                    adjacentMoves.append([i+1,j])
+                # checking the top grid if it is empty so that the bot can play there
+                if(j-1 >= 0 and grid[i][j-1] == ""):
+                    adjacentMoves.append([i,j-1])
+                # checking the bottom grid if it is empty so that the bot can play there
+                if(j+1 < 3 and grid[i][j+1] == ""):
+                    adjacentMoves.append([i,j+1])
+    
 
 def findOtherMoves(grid, otherMoves):
     for i in range(3):
@@ -58,6 +75,7 @@ def findOtherMoves(grid, otherMoves):
 
 def getBotMove(grid, BOT_SHAPE, PLAYER_SHAPE):
     winningMoves = []
+    adjacentMoves = []
     blockingMoves = []
     otherMoves = []
     
