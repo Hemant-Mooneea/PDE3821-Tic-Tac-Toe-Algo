@@ -64,7 +64,7 @@ def getBotMove(grid, BOT_SHAPE, PLAYER_SHAPE):
     findWinningMoves(grid, winningMoves, BOT_SHAPE)
     findBlockingMoves(grid, blockingMoves, PLAYER_SHAPE)
     findOtherMoves(grid, otherMoves)
-    print("hello world")
+
     
 def gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE):
     global currentTurn
