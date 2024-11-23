@@ -1,10 +1,9 @@
 import random
-# Global variable to keep track of the current turn
 # TODO : camera.py which returns a position(eg. [0, 1],[1, 2] etc) which the player players a move
 # TODO : YOLOV8 or alternatives for object detection
 # TODO : game logic for the bot which will try to win, block player, random move(adjacent to another shape) in that order
 # TODO : varying the difficulty of the bot by adding probability of moves
-
+# Global variable to keep track of the current turn
 currentTurn = ""
 
 def checkWin(grid):
@@ -25,57 +24,67 @@ def checkWin(grid):
     # return False if no win
     return False
 
-
-
-#SECTION: Calculating different moves and the best moves
-normalMoves = [] #all moves that can be played
-goodMoves = [] #moves that are likely going to secure a win or block opponent's win
-
-def findBestMove(grid):
-    
-    #find the best possible moves
-    for i in range(3):
-        for j in range(3):
-            #check for an empty grid to play
-            if grid[i][j] == 0:
-
-                #simulate playing X and see if it is a winning move
-                grid[i][j] = 1
-                if checkWin(grid,1):
-                    goodMoves.append([i,j])
-                   
-                #simulate playing O and see if it is a winning move for the opponent
-                grid[i][j] = 2
-                if checkWin(grid,2):
-                    goodMoves.append([i,j])
-
-                #reset grid cell after simulation
-                grid[i][j] = 0
-
-    #if no good move at the moment, play wherever empty
-    for i in range(3):
-        for j in range(3):
-            if grid[i][j] == 0:
-                normalMoves.append([i,j])
                 
 def getPlayerMove(grid):
     # import machine learning file la apres fer li geter kotsa player la in zuer
     # e.g machine learning pou return position dan grid kt player la pu met so move
     print("hello world")
-    currentTurn = "BOT"
+
+def findWinningMoves(grid, winningMoves, BOT_SHAPE): 
+    for i in range(3):
+        for j in range(3):
+            if(grid[i][j] == ""):
+                grid[i][j] = BOT_SHAPE
+                if(checkWin(grid)):
+                    winningMoves.append([i,j])
+                grid[i][j] = ""
+                
+def findBlockingMoves(grid, blockingMoves, PLAYER_SHAPE):
+    for i in range(3):
+        for j in range(3):
+            if(grid[i][j] == ""):
+                grid[i][j] = PLAYER_SHAPE
+                if(checkWin(grid)):
+                    blockingMoves.append([i,j])
+                grid[i][j] = ""
+                
+
+def findOtherMoves(grid, otherMoves):
+    for i in range(3):
+        for j in range(3):
+            #check for an empty grid to play
+            if grid[i][j] == "":
+                otherMoves.append([i,j])
+
+def getBotMove(grid, BOT_SHAPE, PLAYER_SHAPE):
+    winningMoves = []
+    blockingMoves = []
+    otherMoves = []
     
-def getBotMove(grid, shape):
+    findWinningMoves(grid, winningMoves, BOT_SHAPE)
+    findBlockingMoves(grid, blockingMoves, PLAYER_SHAPE)
+    findOtherMoves(grid, otherMoves)
     print("hello world")
-    currentTurn = "PLAYER"
     
-def gameLogic(grid, shape):
+def gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE):
+    global currentTurn
+    
     if (currentTurn == "PLAYER"):
         getPlayerMove(grid)
-        checkWin(grid)
+        currentTurn = "BOT"
     else:
-        getBotMove(grid, shape)
-        checkWin(grid)
-        
+        getBotMove(grid, BOT_SHAPE, PLAYER_SHAPE)
+        currentTurn = "PLAYER"
+    
+    printGrid(grid)
+    
+    if (checkWin(grid) and currentTurn == "PLAYER"):
+        print("Player wins!")
+        return True
+    elif (checkWin(grid) and currentTurn == "BOT"):
+        print("Bot wins!")
+        return True
+    return False
 
 def getEmptyGrid():
     # Return a 3x3 grid with all empty strings
@@ -91,20 +100,23 @@ def printGrid(grid):
         print(row)
         
 def getShape():
-    # If random is 0, then return 'X', else return 'O'
+    global currentTurn
+    # If random is 0, then bot is 'X', else bot is 'O'
     if(random.randint(0,1) == 0):
-        return 'X'
         currentTurn = "PLAYER"
+        return 'X', 'O'
         
     currentTurn = "BOT"
-    return 'O'
+    return 'O', 'X'
     
 def main():
-    BOT_SHAPE = getShape()
+    global currentTurn
+    BOT_SHAPE, PLAYER_SHAPE = getShape()
     grid = getEmptyGrid()
     
     while(True):
-        gameLogic(grid, BOT_SHAPE)
+        if(gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE)):
+            break
     
 main()
     
