@@ -122,7 +122,6 @@ def gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE, totalMoves):
         getBotMove(grid, BOT_SHAPE, PLAYER_SHAPE)
         currentTurn = "PLAYER"
         
-    totalMoves += 1
     printGrid(grid)
     
     if(checkGameEnd(grid, currentTurn, totalMoves)):
@@ -157,6 +156,7 @@ def main():
     grid = getEmptyGrid()
     totalMoves = 0
     while(True):
+        totalMoves += 1
         if(gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE, totalMoves)):
             break
     
