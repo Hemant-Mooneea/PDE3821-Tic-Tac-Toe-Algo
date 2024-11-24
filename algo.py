@@ -98,8 +98,21 @@ def getBotMove(grid, BOT_SHAPE, PLAYER_SHAPE):
     findAdjacentMoves(grid, adjacentMoves, BOT_SHAPE)
     findOtherMoves(grid, otherMoves)
 
+def checkGameEnd(grid, currentTurn, totalMoves):
     
-def gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE):
+    if(checkWin(grid) and currentTurn == "PLAYER"):
+        print("Player wins!")
+        return True
+    elif(checkWin(grid) and currentTurn == "BOT"):
+        print("Bot wins!")
+        return True
+    elif (totalMoves == 9):
+        print("It's a draw!")
+        return True
+    
+    return False
+    
+def gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE, totalMoves):
     global currentTurn
     
     if (currentTurn == "PLAYER"):
@@ -108,16 +121,12 @@ def gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE):
     else:
         getBotMove(grid, BOT_SHAPE, PLAYER_SHAPE)
         currentTurn = "PLAYER"
-    
+        
+    totalMoves += 1
     printGrid(grid)
     
-    if (checkWin(grid) and currentTurn == "PLAYER"):
-        print("Player wins!")
+    if(checkGameEnd(grid, currentTurn, totalMoves)):
         return True
-    elif (checkWin(grid) and currentTurn == "BOT"):
-        print("Bot wins!")
-        return True
-    return False
 
 def getEmptyGrid():
     # Return a 3x3 grid with all empty strings
@@ -146,9 +155,9 @@ def main():
     global currentTurn
     BOT_SHAPE, PLAYER_SHAPE = getShape()
     grid = getEmptyGrid()
-    
+    totalMoves = 0
     while(True):
-        if(gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE)):
+        if(gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE, totalMoves)):
             break
     
 main()
