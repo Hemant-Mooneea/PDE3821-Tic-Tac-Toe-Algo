@@ -150,7 +150,7 @@ def getShape():
     currentTurn = "BOT"
     return 'O', 'X'
     
-def main():
+def startGame():
     global currentTurn
     BOT_SHAPE, PLAYER_SHAPE = getShape()
     grid = getEmptyGrid()
@@ -159,6 +159,8 @@ def main():
         totalMoves += 1
         if(gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE, totalMoves)):
             break
+def main():
+    startGame()
     
 main()
     
