@@ -6,6 +6,7 @@ import random
 # Global variable to keep track of the current turn
 currentTurn = ""
 
+# checks if any player has won by checking rows, columns and diagonals
 def checkWin(grid):
     # checking rows
     for i in range(3):
@@ -30,6 +31,7 @@ def getPlayerMove(grid):
     # e.g machine learning pou return position dan grid kt player la pu met so move
     print("hello world")
 
+# Function to find the winning moves for the bot
 def findWinningMoves(grid, winningMoves, BOT_SHAPE): 
     for i in range(3):
         for j in range(3):
@@ -39,6 +41,7 @@ def findWinningMoves(grid, winningMoves, BOT_SHAPE):
                     winningMoves.append([i,j])
                 grid[i][j] = ""
                 
+# Function to find the blocking moves for the bot
 def findBlockingMoves(grid, blockingMoves, PLAYER_SHAPE):
     for i in range(3):
         for j in range(3):
@@ -47,7 +50,7 @@ def findBlockingMoves(grid, blockingMoves, PLAYER_SHAPE):
                 if(checkWin(grid)):
                     blockingMoves.append([i,j])
                 grid[i][j] = ""
-
+# Function to find the adjacent moves for the bot
 def findAdjacentMoves(grid, adjacentMoves, BOT_SHAPE):
     uniqueMoves = set()
 
@@ -67,6 +70,7 @@ def findAdjacentMoves(grid, adjacentMoves, BOT_SHAPE):
     # Convert the set to a list before returning
     adjacentMoves.extend(list(uniqueMoves))
 
+# Function to find the diagonal moves for the bot
 def findDiagonalMoves(grid, diagonalMoves, BOT_SHAPE):
     if grid[1][1] == BOT_SHAPE:
         if grid[0][0] == "":
@@ -78,10 +82,10 @@ def findDiagonalMoves(grid, diagonalMoves, BOT_SHAPE):
         if grid[2][2] == "":
             diagonalMoves.append([2,2])
 
+# Function to find the other moves for the bot
 def findOtherMoves(grid, otherMoves):
     for i in range(3):
         for j in range(3):
-            #check for an empty grid to play
             if grid[i][j] == "":
                 otherMoves.append([i,j])
 
@@ -111,15 +115,20 @@ def checkGameEnd(grid, currentTurn, totalMoves):
         return True
     
     return False
+
+def updateGrid(grid, move, shape):
+    grid[move[0]][move[1]] = shape
     
 def gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE, totalMoves):
     global currentTurn
     
     if (currentTurn == "PLAYER"):
-        getPlayerMove(grid)
+        playerMove = getPlayerMove(grid)
+        updateGrid(grid, playerMove, PLAYER_SHAPE)
         currentTurn = "BOT"
     else:
-        getBotMove(grid, BOT_SHAPE, PLAYER_SHAPE)
+        botMove = getBotMove(grid, BOT_SHAPE, PLAYER_SHAPE)
+        updateGrid(grid, botMove, BOT_SHAPE)
         currentTurn = "PLAYER"
         
     printGrid(grid)
