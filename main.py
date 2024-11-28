@@ -1,4 +1,5 @@
 from algo import Algo
+import requests
 
 def getEmptyGrid():
     return [
@@ -11,8 +12,17 @@ def printGrid(grid):
     for row in grid:
         print(row)
 
-def getBotShape():
-    pass    
+def getShapes():
+    url = ""
+    while True:
+        try:
+            response = requests.get(url)
+            if requests.status_code == 200:
+                data = response.json()
+                return data['bot_shape'], data['player_shape'], data['current_turn']
+        except:
+            print(f"failed to get shape: {response.status_code}")
+        time.sleep(5)
 
 def getPlayerMove(grid):
     pass
@@ -38,7 +48,7 @@ def gameLogic(algo, grid):
     return ""
 
 def startGame():
-    botShape, playerShape, currentTurn = getBotShape()
+    botShape, playerShape, currentTurn = getShapes()
     algo = Algo(botShape, playerShape, currentTurn)
     grid = getEmptyGrid()
     gameEnded = ""
