@@ -70,3 +70,18 @@ def extractDetailsFromGrid(image_path):
     }
 
     return coordinateValueDict
+
+def ConvertGridToArray():  
+
+    coordinateValueDict = extractDetailsFromGrid('captured_frame.jpg')
+    
+    #*default starting grid, will get updated as game proceeds
+    grid = [[0,0,0],
+            [0,0,0],
+            [0,0,0]]
+
+    #* updating the grid as per the dictionary
+    for (row,col), value in coordinateValueDict.items():
+        grid[row][col] = value
+
+    return grid
