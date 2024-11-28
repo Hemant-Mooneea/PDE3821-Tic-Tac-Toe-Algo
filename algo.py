@@ -1,8 +1,7 @@
 import random
 # TODO : camera.py which returns a position(eg. [0, 1],[1, 2] etc) which the player players a move
 # TODO : YOLOV8 or alternatives for object detection
-# TODO : game logic for the bot which will try to win, block player, random move(adjacent to another shape) in that order
-# TODO : varying the difficulty of the bot by adding probability of moves
+
 # Global variable to keep track of the current turn
 currentTurn = ""
 
@@ -19,7 +18,7 @@ def checkWin(grid):
     # checking diagonals
     if ((grid[0][0] == grid[1][1] == grid[2][2]) and grid[0][0] != ""):
         return True
-    
+
     if ((grid[0][2] == grid[1][1] == grid[2][0]) and grid[0][2] != ""):
         return True
     # return False if no win
@@ -101,17 +100,23 @@ def getBotMove(grid, BOT_SHAPE, PLAYER_SHAPE):
     findDiagonalMoves(grid, diagonalMoves, BOT_SHAPE)
     findAdjacentMoves(grid, adjacentMoves, BOT_SHAPE)
     findOtherMoves(grid, otherMoves)
-
-def checkGameEnd(grid, currentTurn, totalMoves):
     
+def checkDraw(grid):
+    for i in range(3):
+        for j in range(3):
+            if(grid[i][j] == ""):
+                return False
+    return True
+
+def checkGameEnd(grid, currentTurn, ):
     if(checkWin(grid) and currentTurn == "PLAYER"):
         print("Player wins!")
         return True
     elif(checkWin(grid) and currentTurn == "BOT"):
         print("Bot wins!")
         return True
-    elif (totalMoves == 9):
-        print("It's a draw!")
+    elif(checkDraw(grid)):
+        print("Draw!")
         return True
     
     return False
@@ -119,7 +124,7 @@ def checkGameEnd(grid, currentTurn, totalMoves):
 def updateGrid(grid, move, shape):
     grid[move[0]][move[1]] = shape
     
-def gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE, totalMoves):
+def gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE):
     global currentTurn
     
     if (currentTurn == "PLAYER"):
@@ -133,7 +138,7 @@ def gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE, totalMoves):
         
     printGrid(grid)
     
-    if(checkGameEnd(grid, currentTurn, totalMoves)):
+    if(checkGameEnd(grid, currentTurn)):
         return True
 
 def getEmptyGrid():
@@ -163,10 +168,8 @@ def startGame():
     global currentTurn
     BOT_SHAPE, PLAYER_SHAPE = getShape()
     grid = getEmptyGrid()
-    totalMoves = 0
     while(True):
-        totalMoves += 1
-        if(gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE, totalMoves)):
+        if(gameLogic(grid, BOT_SHAPE, PLAYER_SHAPE)):
             break
 def main():
     startGame()
