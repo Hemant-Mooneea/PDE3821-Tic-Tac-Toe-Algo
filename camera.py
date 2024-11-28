@@ -37,3 +37,36 @@ def captureGrid():
     # release the capture and close windows
     capture.release()
     cv2.destroyAllWindows()
+
+
+#? use yolo model or whatever to scan grid cells, separate them using bounding boxes and label them as coordinates 
+#? such as (0,0), (0,1), etc and determine whether its empty, filled with X or O
+#? use the captured_frame.jpg for extracting these details
+def extractDetailsFromGrid(image_path):
+    
+    #! add code here for detection/extraction
+
+
+    """ Each of those coordinates will then be assigned a value depending on what they contain
+    # a dictionary could be used to store these key-value pairs as such: (0,0):0 (empty), (0,1):1 (filled with X)
+    ? 0: empty grid cell
+    ? 1: represents X
+    ? 2: represents O
+    """
+
+    #example of said dictionary
+    #? we could also use the symbols directly instead of using numbers 0,1,2 as you said
+    coordinateValueDict = {
+        (0, 0): 0,  
+        (0, 1): 1,  
+        (0, 2): 2, 
+        (1, 0): 0,
+        (1, 1): 2,
+        (1, 2): 1,
+        (2, 0): 0,
+        (2, 1): 0,
+        (2, 2): 1,
+        #etc
+    }
+
+    return coordinateValueDict
