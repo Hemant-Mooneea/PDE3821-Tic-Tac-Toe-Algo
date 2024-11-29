@@ -1,17 +1,6 @@
 from algo import Algo
 import requests
 
-def getEmptyGrid():
-    return [
-        ["", "", ""],
-        ["", "", ""],
-        ["", "", ""]
-    ]
-
-def printGrid(grid):
-    for row in grid:
-        print(row)
-
 def getShapes():
     url = ""
     while True:
@@ -25,17 +14,24 @@ def getShapes():
         time.sleep(5)
 
 def getPlayerMove(grid):
+    # call camera.py to get the player move
     pass
 
-def gameLogic(algo, grid):
-    if algo.getCurrentTurn() == "PLAYER":
-        playerMove = getPlayerMove(grid)
+def getGrid():
+    # call camera.py to get the grid
+    pass
     
+def gameLogic(algo):
+    
+    if algo.getCurrentTurn() == "PLAYER":
+        playerMove = getPlayerMove()
+        
         if(algo.checkwin(grid)):
             return "Player wins!"
         algo.setCurrentTurn("BOT")
     
     elif algo.getCurrentTurn() == "BOT":
+        grid = getGrid()
         botMove = algo.getBotMove(grid)
         
         if(algo.checkwin(grid)):
@@ -50,9 +46,8 @@ def gameLogic(algo, grid):
 def startGame():
     botShape, playerShape, currentTurn = getShapes()
     algo = Algo(botShape, playerShape, currentTurn)
-    grid = getEmptyGrid()
     gameEnded = ""
     while(gameEnded == ""):
-        gameEnded = gameLogic(algo, grid)
+        gameEnded = gameLogic(algo)
 
     
