@@ -1,16 +1,17 @@
 from algo import Algo
 import requests
+import time
 
 def getShapes():
-    url = ""
+    url = "http://127.0.0.1:5000/shape"
     while True:
         try:
             response = requests.get(url)
-            if requests.status_code == 200:
-                data = response.json()
+            data = response.json()
+            if response.status_code == 200 and data['player_shape'] != "":
                 return data['bot_shape'], data['player_shape'], data['current_turn']
-        except:
-            print(f"failed to get shape: {response.status_code}")
+        except Exception as e:
+            print(f"failed to get shape: {e}")
         time.sleep(5)
 
 def getPlayerMove(grid):
@@ -43,11 +44,21 @@ def gameLogic(algo):
     
     return ""
 
+def resetShapes():
+    url = "http://127.0.0.1:5000/shape"
+    while True:
+        try:
+            response = requests.delete(url)
+        except Exception as e:
+            print(f"failed to delete shape: {e}")
+
 def startGame():
     botShape, playerShape, currentTurn = getShapes()
     algo = Algo(botShape, playerShape, currentTurn)
     gameEnded = ""
     while(gameEnded == ""):
         gameEnded = gameLogic(algo)
+
+    
 
     
