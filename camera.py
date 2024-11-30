@@ -86,7 +86,7 @@ def split_grid(image):
             cell = image[i * cell_height:(i + 1) * cell_height, 
                          j * cell_width:(j + 1) * cell_width]
 
-            # # Display each cell
+            # Display each cell
             # cv2.imshow(f"Cell ({i}, {j})", cell)
             # cv2.waitKey(0)  # Wait for a key press before moving to the next cell
             # cv2.destroyWindow(f"Cell ({i}, {j})")  # Close the window after viewing
@@ -101,27 +101,27 @@ def split_grid(image):
 
 # identify the contents of a cell
 def identify_cell_content(cell, templates):
-    contours, _ = cv2.findContours(cell, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    # if no contours detected, cell is empty
-    if len(contours) == 0:
-        return "Empty" 
+    # contours, _ = cv2.findContours(cell, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    # # if no contours detected, cell is empty
+    # if len(contours) == 0:
+    #     return "Empty" 
     
-    #find the largest contour
-    max_contour = max(contours, key=cv2.contourArea)
-    #if the largest shape is too small, consider it empty
-    if cv2.contourArea(max_contour) < 100:
-        return "Empty"
+    # #find the largest contour
+    # max_contour = max(contours, key=cv2.contourArea)
+    # #if the largest shape is too small, consider it empty
+    # if cv2.contourArea(max_contour) < 100:
+    #     return "Empty"
     
     #compare the cell to each template 
     for label, template in templates.items():
         #check how well the template matches
         res = cv2.matchTemplate(cell, template, cv2.TM_CCOEFF_NORMED)
         # if similarity is above 0.5, assume it's a match
-        if np.max(res) > 0.35: 
+        if np.max(res) > 0.5: 
             # return the label, X or O
             return label
     # if no template matches, return "Unknown"
-    return "Unknown"
+    return "Empty"
 
 
 # maps grid contents to dictionary and array
@@ -150,14 +150,12 @@ def map_grid(cells, templates):
 
 # Initialize templates for X and O
 def load_templates():
-    template_X = cv2.imread('templates/X.jpg', cv2.IMREAD_GRAYSCALE)
-    template_O = cv2.imread('templates/O.jpg', cv2.IMREAD_GRAYSCALE)
+    template_X = cv2.imread('templates/templateX.png', cv2.IMREAD_GRAYSCALE)
+    template_O = cv2.imread('templates/templateO.png', cv2.IMREAD_GRAYSCALE)
 
      # Resize templates to match cell size
-    template_X = cv2.resize(template_X, (120, 120))
-    template_O = cv2.resize(template_O, (120, 120))
-
-    
+    template_X = cv2.resize(template_X, (105, 75))
+    template_O = cv2.resize(template_O, (105, 75))
 
     # Apply thresholding
     _, template_X = cv2.threshold(template_X, 170, 255, cv2.THRESH_BINARY_INV)
@@ -206,6 +204,7 @@ cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 
+#! just a draft to be considered later
 # Main Program
 # def main():
 #     # Load the camera feed or an image
