@@ -1,4 +1,5 @@
 from algo import Algo
+from camera import Camera
 import requests
 import time
 
@@ -19,8 +20,11 @@ def getPlayerMove(grid):
     pass
 
 def getGrid():
-    # call camera.py to get the grid
-    pass
+    camera = Camera()
+
+    grid = camera.main()
+
+    return grid
     
 def gameLogic(algo):
     
