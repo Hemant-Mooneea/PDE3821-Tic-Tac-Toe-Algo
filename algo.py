@@ -12,20 +12,20 @@ class Algo:
     def getCurrentTurn(self):
         return self.currentTurn
     
-    def checkwin(self, grid):
+    def checkwin(self, grid, shape):
         # checking rows
         for i in range(3):
-            if ((grid[i][0] == grid[i][1] == grid[i][2]) and grid[i][0] != ""):
+            if ((grid[i][0] == grid[i][1] == grid[i][2]) == shape and grid[i][0] != ""):
                 return True
         # checking columns
         for i in range(3):
-            if ((grid[0][i] == grid[1][i] == grid[2][i]) and grid[0][i] != ""):
+            if ((grid[0][i] == grid[1][i] == grid[2][i]) == shape  and grid[0][i] != ""):
                 return True
         # checking diagonals
-        if ((grid[0][0] == grid[1][1] == grid[2][2]) and grid[0][0] != ""):
+        if ((grid[0][0] == grid[1][1] == grid[2][2]) == shape  and grid[0][0] != ""):
             return True
 
-        if ((grid[0][2] == grid[1][1] == grid[2][0]) and grid[0][2] != ""):
+        if ((grid[0][2] == grid[1][1] == grid[2][0]) == shape  and grid[0][2] != ""):
             return True
         # return False if no win
         return False
@@ -35,8 +35,9 @@ class Algo:
         for i in range(3):
             for j in range(3):
                 if grid[i][j] == "":
+                    #simulating the move
                     grid[i][j] = shape
-                    if self.checkwin(grid):
+                    if self.checkwin(grid, shape):
                         winningMoves.append([i,j])
                     grid[i][j] = ""
         return winningMoves
