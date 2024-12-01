@@ -1,19 +1,6 @@
 from algo import Algo
 from camera import Camera
-import requests
-import time
-
-def getShapes():
-    url = "http://127.0.0.1:5000/shape"
-    while True:
-        try:
-            response = requests.get(url)
-            data = response.json()
-            if response.status_code == 200 and data['player_shape'] != "":
-                return data['bot_shape'], data['player_shape'], data['current_turn']
-        except Exception as e:
-            print(f"failed to get shape: {e}")
-        time.sleep(5)
+from requestHandler import requestHandler
 
 def getPlayerMove(grid):
     # call camera.py to get the player move
@@ -48,21 +35,16 @@ def gameLogic(algo):
     
     return ""
 
-def resetShapes():
-    url = "http://127.0.0.1:5000/shape"
-    while True:
-        try:
-            response = requests.delete(url)
-        except Exception as e:
-            print(f"failed to delete shape: {e}")
-
 def startGame():
-    botShape, playerShape, currentTurn = getShapes()
+    request = requestHandler()
+    botShape, playerShape, currentTurn = request.getShapes()
     algo = Algo(botShape, playerShape, currentTurn)
     gameEnded = ""
     while(gameEnded == ""):
         gameEnded = gameLogic(algo)
-
     
+    request.resetShapes()
+    
+startGame()
 
     
