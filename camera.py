@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import time
 
 class Camera:
     def __init__(self):
@@ -146,15 +147,16 @@ class Camera:
         return {"X": template_X, "O": template_O}
 
     # Compare grids to detect changes
-    def grid_changed(previous, current):
+    def grid_changed(self, previous, current):
         return previous != current
 
-
-    # capture frame from camera module and feed it to the different functions to extract grid data
-    def main(self):
+    #capture a stable decent frame of the grid image
+    def captureFrame(self):
         # Load the camera feed or an image
         cap = cv2.VideoCapture(0)
-        templates = self.load_templates()
+        
+        stable_frame = None
+        start_time = time.time()  # Record the start time
 
         while True:
             ret, frame = cap.read()
@@ -162,11 +164,51 @@ class Camera:
                 print("Failed to capture frame")
                 break
 
-            try:
+            #show the live feed
+            cv2.imshow("Frame", frame)
+
+            # Check if 5 seconds have passed
+            elapsed_time = time.time() - start_time
+
+            if (elapsed_time >=5):
+                # Capture a stable frame
+                stable_frame = frame.copy()  
+                print("Stable frame captured.")
+                break
+
+            # Allow for manual exit (optional)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                print("Process interrupted by user.")
+                break
+            
+            #! manual frame capturing by pressing the 's' key
+            # # capturing a stable frame from the camera feed only once
+            # if stable_frame is None:
+            #     #show the live feed
+            #     cv2.imshow("Frame", frame)      
+            #     print("Press 's' to capture a stable frame for processing.")
+            #     if cv2.waitKey(1) & 0xFF == ord('s'):
+            #         stable_frame = frame.copy()  # Capture a stable frame
+            #         print("Stable frame captured.")
+            #         break
+
+        cap.release()
+        cv2.destroyAllWindows()
+
+        return stable_frame
+
+
+    # capture frame from camera module and feed it to the different functions to extract grid data
+    def main(self):
+        templates = self.load_templates()
+        stable_frame = self.captureFrame()
+
+        try:
+            if stable_frame is not None:
                 #! just using an image as example since i can't use frame at the moment
-                img = cv2.imread("test_images/test1.jpg") 
+                # img = cv2.imread("test_images/test1.jpg") 
                 # Step 1: Detect and isolate the grid
-                grid_image = self.detectGrid(img) #? will replace img with frame later
+                grid_image = self.detectGrid(stable_frame) #? will replace img with frame later
 
                 # Step 2: Preprocess the isolated grid
                 processed = self.preprocess_image(grid_image)
@@ -181,68 +223,15 @@ class Camera:
                 if self.previous_grid_array is None or self.grid_changed(self.previous_grid_array, self.grid_array):
                     print("Grid Updated:", self.grid_array)
                     self.previous_grid_array = self.grid_array
-                    return self.previous_grid_array
                 else:
-                    return self.previous_grid_array
-
-            except ValueError as e:
-                print(e)
-
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-
-        cap.release()
-        cv2.destroyAllWindows()
+                    self.previous_grid_array = "Not Updated"
+                    
+        except ValueError as e:
+            print(e)
 
         return self.previous_grid_array
 
-
-#? testing
+# # testing
 # camera = Camera()
 
 # grid = camera.main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# # read image used
-# img = cv2.imread("test_images/test1.jpg") 
-# templates = load_templates()
-# previous_grid_array = None
-
-# grid_image = detectGrid(img)
-
-# processed = preprocess_image(grid_image)
-
-# cells = split_grid(processed)
-
-# grid_dict, grid_array = map_grid(cells, templates)
-
-# if previous_grid_array is None or grid_changed(previous_grid_array, grid_array):
-#     print("Grid Updated:")
-#     print(grid_array)
-#     previous_grid_array = grid_array
-
-# cv2.imshow("Grid", grid_image)
-# cv2.imshow("Processed", processed)
-
-
-# cv2.waitKey(0)
-
-# cv2.destroyAllWindows()
