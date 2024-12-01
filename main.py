@@ -1,67 +1,76 @@
 from algo import Algo
 from camera import Camera
-import requests
-import time
+from arm import Arm
+from requestHandler import requestHandler
 
-def getShapes():
-    url = "http://127.0.0.1:5000/shape"
-    while True:
-        try:
-            response = requests.get(url)
-            data = response.json()
-            if response.status_code == 200 and data['player_shape'] != "":
-                return data['bot_shape'], data['player_shape'], data['current_turn']
-        except Exception as e:
-            print(f"failed to get shape: {e}")
-        time.sleep(5)
-
-def getPlayerMove(grid):
-    # call camera.py to get the player move
-    pass
-
+# update grid array and return it
 def getGrid():
     camera = Camera()
 
+    #before capturing frame of grid, set arm in "watch" position to prevent grid obstruction
+    arm = Arm()
+    arm.moveToWatchPosition()
+
+    #capture grid and convert to grid array
     grid = camera.main()
 
     return grid
-    
+
+# general logic for the game 
 def gameLogic(algo):
     
     if algo.getCurrentTurn() == "PLAYER":
-        playerMove = getPlayerMove()
-        
-        if(algo.checkwin(grid)):
+        updatedGrid = None
+        #wait for player to make move
+        while(True):
+            #check if player has made a move, see if grid has been updated
+            updatedGrid = getGrid()
+
+            #if yes, break out of loop
+            if (updatedGrid != "Not Updated"):
+                break
+
+        if(algo.checkwin(updatedGrid, algo.playerShape)):
             return "Player wins!"
-        algo.setCurrentTurn("BOT")
-    
-    elif algo.getCurrentTurn() == "BOT":
-        grid = getGrid()
-        botMove = algo.getBotMove(grid)
+        elif (algo.checkDraw(updatedGrid)):
+            return "Draw!"
         
-        if(algo.checkwin(grid)):
+        algo.setCurrentTurn("BOT")
+        
+
+    elif algo.getCurrentTurn() == "BOT":
+        currentGrid = getGrid()
+        # bot decides its best moves from the grid
+        botMove = algo.getBotMove(currentGrid)
+
+        #bot makes its move
+        arm = Arm()
+        arm.moveToGrid((botMove[0],botMove[1]))
+
+        #after making move, get updated grid array
+        updatedGrid = getGrid()
+        if(algo.checkwin(updatedGrid, algo.botShape)):
             return "Bot wins!"
+        elif(algo.checkDraw(updatedGrid)):
+            return "Draw!"
+        
         algo.setCurrentTurn("PLAYER")
-    
-    if(algo.checkDraw(grid)):
-        return "Draw!"
-    
+
+
     return ""
 
-def resetShapes():
-    url = "http://127.0.0.1:5000/shape"
-    while True:
-        try:
-            response = requests.delete(url)
-        except Exception as e:
-            print(f"failed to delete shape: {e}")
 
 def startGame():
-    botShape, playerShape, currentTurn = getShapes()
+    request = requestHandler()
+    botShape, playerShape, currentTurn = request.getShapes()
     algo = Algo(botShape, playerShape, currentTurn)
     gameEnded = ""
     while(gameEnded == ""):
         gameEnded = gameLogic(algo)
+    
+    request.resetShapes()
+
+startGame()
 
     
 
