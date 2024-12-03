@@ -7,15 +7,15 @@ class Arm:
         self.delay = 2500
         self.moveDelay = 1500
         self.grid_to_angles = {
-            (0,0): [94, 106, 0, 24, 89, 180, self.moveDelay],
-            (0,1): [87, 106, 0, 24, 89, 180, self.moveDelay],
-            (0,2): [82, 106, 0, 24, 89, 180, self.moveDelay],
-            (1,0): [95, 113, 0, 14, 89, 180, self.moveDelay],
-            (1,1): [87, 113, 0, 14, 89, 180, self.moveDelay],
-            (1,2): [81, 113, 0, 14, 89, 180, self.moveDelay],
-            (2,0): [96, 120, 0, 5, 89, 180, self.moveDelay],
-            (2,1): [87,120, 0, 6, 89, 180, self.moveDelay],
-            (2,2): [80, 120, 0, 6, 89, 180, self.moveDelay]
+            (0,2): [83, 79.5, 0, 29, 90, 180,self.moveDelay],
+            (0,1): [90, 80, 0, 28, 90, 180, self.moveDelay],
+            (0,0): [96, 79.5, 0, 29, 90, 180, self.moveDelay],
+            (1,2): [83, 83, 0, 21, 90, 180, self.moveDelay],
+            (1,1): [90, 83, 0, 20, 90, 180, self.moveDelay],
+            (1,0): [97, 83.5, 0, 20, 90, 180, self.moveDelay],
+            (2,2): [82, 86, 0, 13, 90, 180, self.moveDelay],
+            (2,1): [90, 87, 0, 12, 90, 180, self.moveDelay],
+            (2,0): [98, 86, 0, 13, 90, 180, self.moveDelay]
         }
         
     def moveToGrid(self, pos):    
@@ -24,22 +24,23 @@ class Arm:
         self.arm.Arm_serial_servo_write6(*angles)
 
     def moveToWatchPosition(self):
-        self.arm.Arm_serial_servo_write6(90,90,0,5,180,180,self.delay)
+        self.arm.Arm_serial_servo_write6(90,90,0,5,90,180,self.delay)
         
     def moveToRestPosition(self):
         self.arm.Arm_serial_servo_write6(90,180,0,0,90,180,self.delay)
     
     def insertPen(self):
-        self.arm.Arm_serial_servo_write6(88,116,0,13,89,0,self.delay)
-        time.sleep(4)
+        self.arm.Arm_serial_servo_write6(88,116,0,13,89,110,self.delay)
+        time.sleep(10)
         self.arm.Arm_serial_servo_write6(88,116,0,13,89,180,self.delay)
-        time.sleep(1.5)
+        time.sleep(5)
         self.moveToRestPosition()
-
-testarm = Arm()
-
-testarm.moveToGrid((0,2))
-time.sleep(1.5)
-testarm.moveToRestPosition()
-time.sleep(1.5)
-testarm.insertPen()
+    def checkPen(self):
+        self.arm.Arm_serial_servo_write6(88,116,0,13,89,180,self.delay)            
+    def testAllGrids(self):
+        for i in range(3):
+            for j in range(3):
+                self.moveToGrid((i,j))
+                time.sleep(1.5)   
+                testArm.moveToRestPosition()
+                time.sleep(3)   
