@@ -30,7 +30,11 @@ class Arm:
         self.arm.Arm_serial_servo_write6(90,180,0,0,90,180,self.delay)
     
     def insertPen(self):
+        self.arm.Arm_serial_servo_write6(88,116,0,13,89,0,self.delay)
+        time.sleep(4)
         self.arm.Arm_serial_servo_write6(88,116,0,13,89,180,self.delay)
+        time.sleep(1.5)
+        self.moveToRestPosition()
 
 testarm = Arm()
 
@@ -39,5 +43,3 @@ time.sleep(1.5)
 testarm.moveToRestPosition()
 time.sleep(1.5)
 testarm.insertPen()
-time.sleep(5.5)
-testarm.moveToRestPosition()
