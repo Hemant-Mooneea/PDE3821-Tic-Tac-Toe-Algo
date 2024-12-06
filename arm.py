@@ -31,19 +31,8 @@ class Arm:
         
     def moveToRestPosition(self):
         self.arm.Arm_serial_servo_write6(90,180,0,0,90,180,self.delay)
-    
-    def insertPen(self):
-        self.arm.Arm_serial_servo_write6(88,116,0,13,89,110,self.delay)
-        time.sleep(10)
-        self.arm.Arm_serial_servo_write6(88,116,0,13,89,180,self.delay)
-        time.sleep(5)
-        self.moveToRestPosition()
-    def checkPen(self):
-        self.arm.Arm_serial_servo_write6(88,116,0,13,89,180,self.delay)            
+          
     def testAllGrids(self):
         for i in range(3):
             for j in range(3):
                 self.moveToGrid((i,j))
-                time.sleep(1.5)   
-                self.testArm.moveToRestPosition()
-                time.sleep(3)   
