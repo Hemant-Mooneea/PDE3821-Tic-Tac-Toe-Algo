@@ -102,16 +102,34 @@ class Camera:
 
     # identify the contents of a cell
     def identify_cell_content(self,cell, templates):
-        #compare the cell to each template 
+        # #compare the cell to each template 
+        # for label, template in templates.items():
+        #     #check how well the template matches
+        #     res = cv2.matchTemplate(cell, template, cv2.TM_CCOEFF_NORMED)
+        #     # if similarity is above 0.5, assume it's a match
+        #     if np.max(res) > 0.5: 
+        #         # return the label, X or O
+        #         return label
+        # # if no template matches, return "Empty"
+        # return "Empty"
+
+        #!testing
+        highest_score = 0  # Track the highest match score
+        best_label = "Empty"  # Default label if no template matches well enough
+
+        # Compare the cell to each template
         for label, template in templates.items():
-            #check how well the template matches
+            # Check how well the template matches
             res = cv2.matchTemplate(cell, template, cv2.TM_CCOEFF_NORMED)
-            # if similarity is above 0.5, assume it's a match
-            if np.max(res) > 0.5: 
-                # return the label, X or O
-                return label
-        # if no template matches, return "Empty"
-        return "Empty"
+            max_res = np.max(res)  # Get the maximum score for this template
+
+            # Update the best match if this score is higher than the previous best
+            if max_res > highest_score:
+                highest_score = max_res
+                best_label = label
+
+        # Return the label with the highest score if it is above the threshold; otherwise, "Empty"
+        return best_label if highest_score > 0.5 else "Empty"
 
 
     # maps grid contents to dictionary and array
@@ -124,7 +142,7 @@ class Camera:
             for j, cell in enumerate(row):
                 #identify what's inside the cell
                 content = self.identify_cell_content(cell, templates)
-                # add it to array row
+                # add it to array row7
                 array_row.append(content)
             #add the completed row to the 2D array
             self.grid_array.append(array_row)
@@ -231,7 +249,7 @@ class Camera:
 
         return self.previous_grid_array
 
-# # testing
-# camera = Camera()
+# testing
+camera = Camera()
 
-# grid = camera.main()
+grid = camera.main()
