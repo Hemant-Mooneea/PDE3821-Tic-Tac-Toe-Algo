@@ -181,16 +181,16 @@ class Camera:
             if not ret:
                 print("Failed to capture frame")
                 break
-
+            flipped_frame = cv2.flip(frame, -1)
             #show the live feed
-            cv2.imshow("Frame", frame)
+            cv2.imshow("Frame", flipped_frame)
 
             # Check if 5 seconds have passed
             elapsed_time = time.time() - start_time
 
             if (elapsed_time >=5):
                 # Capture a stable frame
-                stable_frame = frame.copy()  
+                stable_frame = fl.copy()  
                 print("Stable frame captured.")
                 break
 
