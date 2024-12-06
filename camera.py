@@ -171,7 +171,7 @@ class Camera:
     #capture a stable decent frame of the grid image
     def captureFrame(self):
         # Load the camera feed or an image
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(1)
         
         stable_frame = None
         start_time = time.time()  # Record the start time
