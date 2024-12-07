@@ -3,13 +3,13 @@ from camera import Camera
 from arm import Arm
 from requestHandler import requestHandler
 
+robotArm = Arm()
 # update grid array and return it
 def getGrid():
     camera = Camera()
 
     #before capturing frame of grid, set arm in "watch" position to prevent grid obstruction
-    arm = Arm()
-    arm.moveToWatchPosition()
+    robotArm.moveToWatchPosition()
 
     #capture grid and convert to grid array
     grid = camera.main()
@@ -44,8 +44,7 @@ def gameLogic(algo):
         botMove = algo.getBotMove(currentGrid)
 
         #bot makes its move
-        arm = Arm()
-        arm.moveToGrid((botMove[0],botMove[1]))
+        robotArm.moveToGrid((botMove[0],botMove[1]))
 
         #after making move, get updated grid array
         updatedGrid = getGrid()
@@ -61,6 +60,7 @@ def gameLogic(algo):
 
 
 def startGame():
+    robotArm.moveToRestPosition()
     request = requestHandler()
     botShape, playerShape, currentTurn = request.getShapes()
     algo = Algo(botShape, playerShape, currentTurn)
