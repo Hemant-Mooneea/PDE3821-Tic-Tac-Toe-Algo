@@ -118,8 +118,3 @@ class Algo:
             return random.choice(otherMoves) 
          
         return None 
-algo = Algo("X", "O", "BOT")
-grid = [['X', '', 'X'], 
-        ['', 'X', 'O'], 
-        ['X', 'O', 'O']]
-print(algo.checkwin(grid, "X"))
