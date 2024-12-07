@@ -29,11 +29,6 @@ def gameLogic(algo):
             #if yes, break out of loop
             if (updatedGrid != "Not Updated"):
                 break
-
-        if(algo.checkwin(updatedGrid, algo.playerShape)):
-            return "Player wins!"
-        elif (algo.checkDraw(updatedGrid)):
-            return "Draw!"
         
         algo.setCurrentTurn("BOT")
         
@@ -41,20 +36,21 @@ def gameLogic(algo):
     elif algo.getCurrentTurn() == "BOT":
         currentGrid = getGrid()
         # bot decides its best moves from the grid
+        robotArm.moveToRestPosition()
         botMove = algo.getBotMove(currentGrid)
-
         #bot makes its move
-        robotArm.moveToGrid((botMove[0],botMove[1]))
+        robotArm.moveToGrid((botMove))
 
         #after making move, get updated grid array
         updatedGrid = getGrid()
-        if(algo.checkwin(updatedGrid, algo.botShape)):
-            return "Bot wins!"
-        elif(algo.checkDraw(updatedGrid)):
-            return "Draw!"
-        
         algo.setCurrentTurn("PLAYER")
 
+    if(algo.checkwin(updatedGrid, algo.playerShape)):
+        return "Player wins!"
+    elif(algo.checkwin(updatedGrid, algo.botShape)):
+        return "Bot wins!"
+    elif (algo.checkDraw(updatedGrid)):
+        return "Draw!"
 
     return ""
 
