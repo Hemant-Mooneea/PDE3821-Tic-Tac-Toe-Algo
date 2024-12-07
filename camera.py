@@ -190,7 +190,7 @@ class Camera:
 
             if (elapsed_time >=5):
                 # Capture a stable frame
-                stable_frame = fl.copy()  
+                stable_frame = flipped_frame.copy()  
                 print("Stable frame captured.")
                 break
 
