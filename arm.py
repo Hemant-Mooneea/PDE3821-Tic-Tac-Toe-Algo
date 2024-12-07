@@ -17,7 +17,7 @@ class Arm:
         }
         
     def moveToGrid(self, pos):    
-        angles = self.grid_to_angles[pos]
+        angles = self.grid_to_angles[tuple(pos)]
         # Use unpacking to pass the values to Arm_serial_servo_write6
         self.arm.Arm_serial_servo_write6(*angles)
         time.sleep(1.5)
