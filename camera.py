@@ -250,6 +250,6 @@ class Camera:
         return self.previous_grid_array
 
 # testing
-camera = Camera()
+# camera = Camera()
 
-grid = camera.main()
+# grid = camera.main()
