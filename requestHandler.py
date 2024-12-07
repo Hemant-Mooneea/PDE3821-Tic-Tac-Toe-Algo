@@ -18,8 +18,7 @@ class requestHandler:
             time.sleep(2)
             
     def resetShapes(self):
-        while True:
-            try:
-                response = requests.delete(self.url)
-            except Exception as e:
-                print(f"failed to delete shape: {e}")
+        try:
+            response = requests.delete(self.url)
+        except Exception as e:
+            print(f"failed to delete shape: {e}")
