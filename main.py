@@ -63,7 +63,9 @@ def startGame():
     gameEnded = ""
     while(gameEnded == ""):
         gameEnded = gameLogic(algo)
-    
+        
+    print(gameEnded)
+    robotArm.moveToRestPosition()
     request.resetShapes()
 
 startGame()
