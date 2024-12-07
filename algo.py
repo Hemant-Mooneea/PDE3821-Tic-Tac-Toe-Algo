@@ -13,21 +13,20 @@ class Algo:
         return self.currentTurn
     
     def checkwin(self, grid, shape):
-        # checking rows
+        # Checking rows
         for i in range(3):
-            if ((grid[i][0] == grid[i][1] == grid[i][2]) == shape and grid[i][0] != ""):
+            if grid[i][0] == grid[i][1] == grid[i][2] == shape:
                 return True
-        # checking columns
+        # Checking columns
         for i in range(3):
-            if ((grid[0][i] == grid[1][i] == grid[2][i]) == shape  and grid[0][i] != ""):
+            if grid[0][i] == grid[1][i] == grid[2][i] == shape:
                 return True
-        # checking diagonals
-        if ((grid[0][0] == grid[1][1] == grid[2][2]) == shape  and grid[0][0] != ""):
+        # Checking diagonals
+        if grid[0][0] == grid[1][1] == grid[2][2] == shape:
             return True
-
-        if ((grid[0][2] == grid[1][1] == grid[2][0]) == shape  and grid[0][2] != ""):
+        if grid[0][2] == grid[1][1] == grid[2][0] == shape:
             return True
-        # return False if no win
+        
         return False
     
     def findWinningMoves(self, grid, shape):
@@ -119,3 +118,8 @@ class Algo:
             return random.choice(otherMoves) 
          
         return None 
+algo = Algo("X", "O", "BOT")
+grid = [['X', '', 'X'], 
+        ['', 'X', 'O'], 
+        ['X', 'O', 'O']]
+print(algo.checkwin(grid, "X"))
