@@ -31,3 +31,4 @@ class requestHandler:
                 return data['last_played']
             except Exception as e:
                 print(f"failed to get last played: {e}")
+            time.sleep(2)
