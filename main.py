@@ -27,7 +27,8 @@ def gameLogic(algo):
             if (lastPlayed != "" and lastPlayed == algo.getPlayerShape()):
                 break
             time.sleep(2)
-            
+        #get updated grid array
+        updatedGrid = getGrid()
         algo.setCurrentTurn("BOT")
         
 
