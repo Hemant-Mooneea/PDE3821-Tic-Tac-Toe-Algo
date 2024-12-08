@@ -12,6 +12,12 @@ class Algo:
     def getCurrentTurn(self):
         return self.currentTurn
     
+    def getBotShape(self):
+        return self.botShape
+    
+    def getPlayerShape(self):
+        return self.playerShape
+    
     def checkwin(self, grid, shape):
         # Checking rows
         for i in range(3):
