@@ -3,6 +3,7 @@ from camera import Camera
 from arm import Arm
 from requestHandler import requestHandler
 
+request = requestHandler()
 robotArm = Arm()
 # update grid array and return it
 def getGrid():
@@ -20,16 +21,13 @@ def getGrid():
 def gameLogic(algo):
     
     if algo.getCurrentTurn() == "PLAYER":
-        updatedGrid = None
         #wait for player to make move
         while(True):
-            #check if player has made a move, see if grid has been updated
-            updatedGrid = getGrid()
-
-            #if yes, break out of loop
-            if (updatedGrid != "Not Updated"):
+            lastPlayed = request.getLastPlayed()
+            if (lastPlayed != "" and lastPlayed == algo.getPlayerShape()):
                 break
-        
+            time.sleep(2)
+            
         algo.setCurrentTurn("BOT")
         
 
@@ -57,7 +55,6 @@ def gameLogic(algo):
 
 def startGame():
     robotArm.moveToRestPosition()
-    request = requestHandler()
     botShape, playerShape, currentTurn = request.getShapes()
     algo = Algo(botShape, playerShape, currentTurn)
     gameEnded = ""
