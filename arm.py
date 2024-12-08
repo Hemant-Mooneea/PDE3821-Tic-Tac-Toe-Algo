@@ -45,4 +45,16 @@ class Arm:
                 self.arm.Arm_serial_servo_write6(*angles)
                 time.sleep(1.5)
         self.moveToRestPosition()
+    
+    def loseEmote(self):
+        self.moveToRestPosition()
+        self.arm.Arm_serial_servo_write6(90,100,0,0,90,180,self.delay)
+        time.sleep(1.5)
+        for i in range(2):
+            self.arm.Arm_serial_servo_write6(50,100,0,0,90,180,750)
+            time.sleep(0.75)
+            self.arm.Arm_serial_servo_write6(130,100,0,0,90,180,750)
+            time.sleep(0.75)
+        self.moveToRestPosition()
+
 
