@@ -60,8 +60,10 @@ def startGame():
     robotArm.moveToRestPosition()
     request.resetShapes()
 
-startGame()
-
+def main():
+    while(True):
+        startGame()
+main()
     
 
     
