@@ -20,7 +20,7 @@ def getGrid():
     return grid
 
 # general logic for the game 
-def gameLogic(algo):
+def gameLogic(algo, previousGrid):
     
     if algo.getCurrentTurn() == "PLAYER":
         #wait for player to make move
@@ -28,40 +28,33 @@ def gameLogic(algo):
             lastPlayed = request.getLastPlayed()
             if (lastPlayed != "" and lastPlayed == algo.getPlayerShape()):
                 break
-        #get updated grid array
-        updatedGrid = getGrid()
         algo.setCurrentTurn("BOT")
-        
-
+    
     elif algo.getCurrentTurn() == "BOT":
-        currentGrid = getGrid()
-        # bot decides its best moves from the grid
         robotArm.moveToRestPosition()
-        botMove = algo.getBotMove(currentGrid)
-        #bot makes its move
+        botMove = algo.getBotMove(previousGrid)
         robotArm.moveToGrid((botMove))
-
-        #after making move, get updated grid array
-        updatedGrid = getGrid()
         algo.setCurrentTurn("PLAYER")
 
+    updatedGrid = getGrid()
     if(algo.checkwin(updatedGrid, algo.playerShape)):
-        return "Player wins!"
+        return "Player wins!", ""
     elif(algo.checkwin(updatedGrid, algo.botShape)):
-        return "Bot wins!"
+        return "Bot wins!", ""
     elif (algo.checkDraw(updatedGrid)):
-        return "Draw!"
+        return "Draw!", ""
 
-    return ""
+    return "", updatedGrid
 
 
 def startGame():
     robotArm.moveToRestPosition()
     botShape, playerShape, currentTurn = request.getShapes()
     algo = Algo(botShape, playerShape, currentTurn)
+    previousGrid = ""
     gameEnded = ""
     while(gameEnded == ""):
-        gameEnded = gameLogic(algo)
+        gameEnded, previousGrid = gameLogic(algo, previousGrid)
         
     print(gameEnded)
     robotArm.moveToRestPosition()
