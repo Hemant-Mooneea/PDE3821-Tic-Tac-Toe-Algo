@@ -30,7 +30,7 @@ class Arm:
         
     def moveToRestPosition(self):
         self.arm.Arm_serial_servo_write6(90,180,0,0,90,180,self.delay)
-        time.sleep(1.5)
+        time.sleep(0.75)
     
     def moveFromGridToWatch(self):
         self.arm.Arm_serial_servo_write6(90,150,0,0,90,180,750)
