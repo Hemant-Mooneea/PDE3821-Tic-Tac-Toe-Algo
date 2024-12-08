@@ -21,7 +21,8 @@ class Arm:
         # Use unpacking to pass the values to Arm_serial_servo_write6
         self.arm.Arm_serial_servo_write6(*angles)
         time.sleep(1.5)
-        self.moveToRestPosition()
+        self.moveFromGridToWatch()
+        self.moveToWatchPosition()
 
     def moveToWatchPosition(self):
         self.arm.Arm_serial_servo_write6(90,95,0,0,90,180,self.delay)
@@ -30,7 +31,11 @@ class Arm:
     def moveToRestPosition(self):
         self.arm.Arm_serial_servo_write6(90,180,0,0,90,180,self.delay)
         time.sleep(1.5)
-          
+    
+    def moveFromGridToWatch(self):
+        self.arm.Arm_serial_servo_write6(90,180,0,0,90,180,self.delay)
+        time.sleep(0.25)
+
     def testAllGrids(self):
         for i in range(3):
             for j in range(3):
