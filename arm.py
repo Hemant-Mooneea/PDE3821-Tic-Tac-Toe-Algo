@@ -33,7 +33,7 @@ class Arm:
         time.sleep(1.5)
     
     def moveFromGridToWatch(self):
-        self.arm.Arm_serial_servo_write6(90,150,0,0,90,180,750)
+        self.arm.Arm_serial_servo_write6(90,120,0,0,90,180,750)
         time.sleep(0.75)
 
     def testAllGrids(self):
@@ -56,5 +56,12 @@ class Arm:
             self.arm.Arm_serial_servo_write6(130,100,0,0,90,180,750)
             time.sleep(0.75)
         self.moveToRestPosition()
-
+    def drawEmote(self):
+        self.moveToRestPosition()
+        for i in range(3):
+            self.arm.Arm_serial_servo_write6(90,180,0,-10,90,180,500)
+            time.sleep(0.5)
+            self.arm.Arm_serial_servo_write6(90,180,0, 10,90,180,500)
+            time.sleep(0.5)
+        self.moveToRestPosition()
 
