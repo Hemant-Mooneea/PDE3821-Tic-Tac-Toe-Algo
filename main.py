@@ -59,9 +59,9 @@ def startGame():
     if(gameEnded == "Draw"):
         robotArm.drawEmote()
     elif(gameEnded == "Player win"):
-        robotArm.winEmote()
-    elif(gameEnded == "Bot win"):
         robotArm.loseEmote()
+    elif(gameEnded == "Bot win"):
+        robotArm.winEmote()
         
     robotArm.moveToRestPosition()
     request.resetShapes()
