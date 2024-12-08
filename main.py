@@ -14,6 +14,8 @@ def getGrid():
 
     #capture grid and convert to grid array
     grid = camera.main()
+    
+    robotArm.moveToRestPosition()
 
     return grid
 
