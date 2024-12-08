@@ -117,7 +117,7 @@ class Camera:
                 best_label = label
 
         # Return the label with the highest score if it is above the threshold; otherwise, "Empty"
-        return best_label if highest_score > 0.15 else ""
+        return best_label if highest_score > 0.20 else ""
 
 
     # maps grid contents to dictionary and array
