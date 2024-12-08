@@ -102,18 +102,6 @@ class Camera:
 
     # identify the contents of a cell
     def identify_cell_content(self,cell, templates):
-        # #compare the cell to each template 
-        # for label, template in templates.items():
-        #     #check how well the template matches
-        #     res = cv2.matchTemplate(cell, template, cv2.TM_CCOEFF_NORMED)
-        #     # if similarity is above 0.5, assume it's a match
-        #     if np.max(res) > 0.5: 
-        #         # return the label, X or O
-        #         return label
-        # # if no template matches, return "Empty"
-        # return "Empty"
-
-        #!testing
         highest_score = 0  # Track the highest match score
         best_label = ""  # Default label if no template matches well enough
 
@@ -198,17 +186,6 @@ class Camera:
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 print("Process interrupted by user.")
                 break
-            
-            #! manual frame capturing by pressing the 's' key
-            # # capturing a stable frame from the camera feed only once
-            # if stable_frame is None:
-            #     #show the live feed
-            #     cv2.imshow("Frame", frame)      
-            #     print("Press 's' to capture a stable frame for processing.")
-            #     if cv2.waitKey(1) & 0xFF == ord('s'):
-            #         stable_frame = frame.copy()  # Capture a stable frame
-            #         print("Stable frame captured.")
-            #         break
 
         cap.release()
         cv2.destroyAllWindows()
@@ -223,10 +200,8 @@ class Camera:
 
         try:
             if stable_frame is not None:
-                #! just using an image as example since i can't use frame at the moment
-                # img = cv2.imread("test_images/test1.jpg") 
                 # Step 1: Detect and isolate the grid
-                grid_image = self.detectGrid(stable_frame) #? will replace img with frame later
+                grid_image = self.detectGrid(stable_frame)
 
                 # Step 2: Preprocess the isolated grid
                 processed = self.preprocess_image(grid_image)
