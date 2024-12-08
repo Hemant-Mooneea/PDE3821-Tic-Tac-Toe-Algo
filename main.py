@@ -38,11 +38,11 @@ def gameLogic(algo, previousGrid):
 
     updatedGrid = getGrid()
     if(algo.checkwin(updatedGrid, algo.playerShape)):
-        return "Player wins!", ""
+        return "Player win", ""
     elif(algo.checkwin(updatedGrid, algo.botShape)):
-        return "Bot wins!", ""
+        return "Bot win", ""
     elif (algo.checkDraw(updatedGrid)):
-        return "Draw!", ""
+        return "Draw", ""
 
     return "", updatedGrid
 
@@ -56,7 +56,13 @@ def startGame():
     while(gameEnded == ""):
         gameEnded, previousGrid = gameLogic(algo, previousGrid)
         
-    print(gameEnded)
+    if(gameEnded == "Draw"):
+        robotArm.drawEmote()
+    elif(gameEnded == "Player win"):
+        robotArm.winEmote()
+    elif(gameEnded == "Bot win"):
+        robotArm.loseEmote()
+        
     robotArm.moveToRestPosition()
     request.resetShapes()
 
