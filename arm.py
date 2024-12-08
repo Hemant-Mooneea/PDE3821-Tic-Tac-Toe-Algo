@@ -33,8 +33,8 @@ class Arm:
         time.sleep(1.5)
     
     def moveFromGridToWatch(self):
-        self.arm.Arm_serial_servo_write6(90,180,0,0,90,180,self.delay)
-        time.sleep(0.25)
+        self.arm.Arm_serial_servo_write6(90,120,0,0,90,180,750)
+        time.sleep(0.75)
 
     def testAllGrids(self):
         for i in range(3):
