@@ -3,11 +3,11 @@ import time
 
 class requestHandler:
     def __init__(self):
-        self.url = "http://127.0.0.1:5000/shape"
+        self.url = "http://127.0.0.1:5000"
     def getShapes(self):
         while True:
             try:
-                response = requests.get(self.url)
+                response = requests.get(f"{self.url}/shape")
                 data = response.json()
                 if response.status_code == 200 and data['player_shape'] != "":
                     print("Got Shapes")
@@ -19,6 +19,15 @@ class requestHandler:
             
     def resetShapes(self):
         try:
-            response = requests.delete(self.url)
+            response = requests.delete(f"{self.url}/shape")
         except Exception as e:
             print(f"failed to delete shape: {e}")
+    
+    def getLastPlayed(self):
+        while True:
+            try:
+                response = requests.get(f"{self.url}/last-played")
+                data = response.json()
+                return data['last_played']
+            except Exception as e:
+                print(f"failed to get last played: {e}")
