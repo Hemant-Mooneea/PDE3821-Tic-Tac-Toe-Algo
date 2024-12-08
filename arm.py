@@ -50,12 +50,13 @@ class Arm:
         self.moveToRestPosition()
         self.arm.Arm_serial_servo_write6(90,100,0,0,90,180,self.delay)
         time.sleep(1.5)
-        for i in range(2):
-            self.arm.Arm_serial_servo_write6(50,100,0,0,90,180,750)
-            time.sleep(0.75)
-            self.arm.Arm_serial_servo_write6(130,100,0,0,90,180,750)
-            time.sleep(0.75)
+        for i in range(3):
+            self.arm.Arm_serial_servo_write6(50,100,0,0,90,180,1000)
+            time.sleep(1)
+            self.arm.Arm_serial_servo_write6(130,100,0,0,90,180,1000)
+            time.sleep(1)
         self.moveToRestPosition()
+
     def drawEmote(self):
         self.moveToRestPosition()
         for i in range(3):
@@ -65,3 +66,15 @@ class Arm:
             time.sleep(0.5)
         self.moveToRestPosition()
 
+    def winEmote(self):
+        self.moveToRestPosition()
+        for i in range(3):
+            self.arm.Arm_serial_servo_write6(45,180,0,10,90,180,750)
+            time.sleep(0.75)
+            self.arm.Arm_serial_servo_write6(135,180,0,10,90,180,750)
+            time.sleep(0.75)
+            self.arm.Arm_serial_servo_write6(45,180,0,0,90,180,750)
+            time.sleep(0.75)
+            self.arm.Arm_serial_servo_write6(135,180,0,0,90,180,750)
+            time.sleep(0.75)
+        self.moveToRestPosition()
