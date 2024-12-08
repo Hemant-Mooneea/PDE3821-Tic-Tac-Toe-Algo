@@ -51,7 +51,7 @@ def startGame():
     robotArm.moveToRestPosition()
     botShape, playerShape, currentTurn = request.getShapes()
     algo = Algo(botShape, playerShape, currentTurn)
-    previousGrid = ""
+    previousGrid = [["", "", ""], ["", "", ""], ["", "", ""]]
     gameEnded = ""
     while(gameEnded == ""):
         gameEnded, previousGrid = gameLogic(algo, previousGrid)
