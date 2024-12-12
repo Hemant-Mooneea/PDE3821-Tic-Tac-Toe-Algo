@@ -9,12 +9,13 @@ robotArm = Arm()
 def getGrid():
     camera = Camera()
 
-    #before capturing frame of grid, set arm in "watch" position to prevent grid obstruction
+    # set arm in "watch" position to get a clear view of grid
     robotArm.moveToWatchPosition()
 
     #capture grid and convert to grid array
     grid = camera.main()
     
+    # after "watching" the grid, move to rest position
     robotArm.moveToRestPosition()
 
     return grid
@@ -32,10 +33,13 @@ def gameLogic(algo, previousGrid):
     
     elif algo.getCurrentTurn() == "BOT":
         robotArm.moveToRestPosition()
+        # bot decides its move
         botMove = algo.getBotMove(previousGrid)
+        #bot makes its move
         robotArm.moveToGrid((botMove))
         algo.setCurrentTurn("PLAYER")
 
+    # update the grid array after move has been made
     updatedGrid = getGrid()
     if(algo.checkwin(updatedGrid, algo.playerShape)):
         return "Player win", ""
@@ -49,7 +53,9 @@ def gameLogic(algo, previousGrid):
 
 def startGame():
     robotArm.moveToRestPosition()
+    # get the shape chosen by player, the bot shape and current turn from user interaction with website
     botShape, playerShape, currentTurn = request.getShapes()
+    #initialize the algo object
     algo = Algo(botShape, playerShape, currentTurn)
     previousGrid = [["", "", ""], ["", "", ""], ["", "", ""]]
     gameEnded = ""
