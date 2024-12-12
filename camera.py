@@ -223,8 +223,3 @@ class Camera:
             print(e)
 
         return self.previous_grid_array
-
-# testing
-# camera = Camera()
-
-# grid = camera.main()
